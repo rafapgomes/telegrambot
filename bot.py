@@ -34,20 +34,30 @@ def instagram(update: Update, context: CallbackContext) -> None:
     json_text = scrapepage.get_json_media_page(page)
     vetor = scrapepage.get_download_link(json_text)
     #Baixa sidecar (publicações com multiplas midias juntas)
-    if len(vetor['url']) > 1 and vetor['tipo']==2:
-        update.message.reply_text('Baixando multiplas midias!')
-        principal.envio_sidecar(update,vetor['url'])
-        print('Envio completo!')
-        arq.deleta('midia')
-        print('Pasta limpa')
+    if  vetor['tipo']==2:
+            update.message.reply_text('Baixando multiplas midias!')
+            principal.envio_sidecar(update,vetor['url'])
+            print('Envio completo!')
+            arq.deleta('midia')
+            print('Pasta limpa')
 
     #Baixa foto unica
-    elif len(vetor['url']) == 1 and vetor['tipo']==1:
-        update.message.reply_text('Baixando a foto!')
-        principal.envio_single_photo(vetor['url'])
-        print('Envio completo!')
-        arq.deleta('midia')
-        print('Pasta limpa')
+    elif vetor['tipo']==1:
+            print('foto unica')
+            update.message.reply_text('Baixando a foto!')
+            principal.envio_single_photo(update,vetor['url'])
+            print('Envio completo!')
+            arq.deleta('midia')
+            print('Pasta limpa')
+    elif vetor['tipo']==3:
+            print('video unica')
+
+            update.message.reply_text('Baixando o video!')
+            print(vetor['url'])
+            principal.envio_single_video(update,vetor['url'])
+            print('Envio completo!')
+            arq.deleta('midia')
+            print('Pasta limpa')
 
 
 
@@ -61,7 +71,6 @@ def main() -> None:
     # Create the Updater and pass it your bot's token.
     file = open('token.txt','r')
     token = file.read()
-    print(token)
     updater = Updater(token)
 
     # Get the dispatcher to register handlers
