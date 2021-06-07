@@ -8,6 +8,8 @@ def get_photo_page(url):
 
 #Pega o JSON da midia
 
+
+
 def get_json_media_page(page):
     soup = bs(page,'html.parser')
     lista = soup.find_all('script')
@@ -21,16 +23,17 @@ def get_media_type(json_text):
 #Pega o link de download da midia
 def get_download_link(json_text):
     obj_json = json.loads(json_text)
+    print(json.dumps(obj_json,indent=4))
     if get_media_type(json_text)== 'GraphImage':
         obj_json = json.loads(json_text)
-        return {'url':obj_json['graphql']['shortcode_media']['display_url'],'tipo':1}
+        return {'url':obj_json['graphql']['shortcode_media']['display_url'],'tipo':1,'owner': obj_json['graphql']['shortcode_media']['owner']['full_name']}
        
     elif get_media_type(json_text) == 'GraphSidecar':
-          return get_sidecar_single_media(obj_json['graphql']['shortcode_media']['edge_sidecar_to_children']['edges'])
+          return get_sidecar_single_media(obj_json['graphql']['shortcode_media'])
     elif get_media_type(json_text) == 'GraphVideo':
          print('oi')
          print(obj_json['graphql']['shortcode_media']['video_url'])
-         return {'url':obj_json['graphql']['shortcode_media']['video_url'],'tipo':3}
+         return {'url':obj_json['graphql']['shortcode_media']['video_url'],'tipo':3,'owner': obj_json['graphql']['shortcode_media']['owner']['full_name']}
 
 
 
@@ -38,7 +41,7 @@ def get_download_link(json_text):
 def get_sidecar_single_media(lista):
     vetor = []
     print('oi')
-    for i in lista:
+    for i in lista['edge_sidecar_to_children']['edges']:
         if i['node']['__typename']== 'GraphImage':
                 vetor.append(1)
                 vetor.append(i['node']['display_url'])
@@ -46,4 +49,4 @@ def get_sidecar_single_media(lista):
         elif i['node']['__typename'] == 'GraphVideo':
              vetor.append(2)
              vetor.append(i['node']['video_url'])
-    return {'url':vetor,'tipo':2}
+    return {'url':vetor,'tipo':2,'owner': lista['owner']['full_name']}

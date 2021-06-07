@@ -4,6 +4,7 @@ from telegram import Update, ForceReply
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 import principal
 import arq
+import telegramkeys
 # Enable logging
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
@@ -35,7 +36,7 @@ def instagram(update: Update, context: CallbackContext) -> None:
     vetor = scrapepage.get_download_link(json_text)
     #Baixa sidecar (publicações com multiplas midias juntas)
     if  vetor['tipo']==2:
-            update.message.reply_text('Baixando multiplas midias!')
+            update.message.reply_text('Baixando multiplas midias de '+vetor['owner'])
             principal.envio_sidecar(update,vetor['url'])
             print('Envio completo!')
             arq.deleta('midia')
@@ -44,7 +45,7 @@ def instagram(update: Update, context: CallbackContext) -> None:
     #Baixa foto unica
     elif vetor['tipo']==1:
             print('foto unica')
-            update.message.reply_text('Baixando a foto!')
+            update.message.reply_text('Baixando a foto de '+vetor['owner'])
             principal.envio_single_photo(update,vetor['url'])
             print('Envio completo!')
             arq.deleta('midia')
@@ -52,7 +53,7 @@ def instagram(update: Update, context: CallbackContext) -> None:
     elif vetor['tipo']==3:
             print('video unica')
 
-            update.message.reply_text('Baixando o video!')
+            update.message.reply_text('Baixando o video de '+vetor['owner'])
             print(vetor['url'])
             principal.envio_single_video(update,vetor['url'])
             print('Envio completo!')
@@ -69,8 +70,7 @@ def instagram(update: Update, context: CallbackContext) -> None:
 def main() -> None:
     """Start the bot."""
     # Create the Updater and pass it your bot's token.
-    file = open('token.txt','r')
-    token = file.read()
+    token = telegramkeys.token  
     updater = Updater(token)
 
     # Get the dispatcher to register handlers
