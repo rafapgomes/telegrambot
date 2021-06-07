@@ -16,3 +16,8 @@ def envio_sidecar(update,vetor):
 def envio_single_photo(update,vetor):
     arq.download(vetor,'midia/1','.jpeg')
     update.message.reply_photo(photo=open('midia/1.jpeg','rb'))
+
+def envio_single_video(update,vetor):
+    arq.download(vetor,'midia/1','.mp4')
+    print("teste",vetor)
+    update.message.reply_video(video=open('midia/1.mp4','rb'))

@@ -27,7 +27,10 @@ def get_download_link(json_text):
        
     elif get_media_type(json_text) == 'GraphSidecar':
           return get_sidecar_single_media(obj_json['graphql']['shortcode_media']['edge_sidecar_to_children']['edges'])
-              
+    elif get_media_type(json_text) == 'GraphVideo':
+         print('oi')
+         print(obj_json['graphql']['shortcode_media']['video_url'])
+         return {'url':obj_json['graphql']['shortcode_media']['video_url'],'tipo':3}
 
 
 
