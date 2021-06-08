@@ -22,6 +22,7 @@ def start(update: Update, context: CallbackContext) -> None:
         fr'Hi {user.mention_markdown_v2()}\!',
         reply_markup=ForceReply(selective=True),
     )
+    update.message.reply_text('Ola! Eu sou um bot que baixa videos e fotos do Instagram! Digite /ig + link da midia e eu baixo pra você.')
 
 
 def help_command(update: Update, context: CallbackContext) -> None:
@@ -81,7 +82,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler("help", help_command))
 
     # on non command i.e message - echo the message on Telegram
-    dispatcher.add_handler(CommandHandler("instagram",instagram))
+    dispatcher.add_handler(CommandHandler("ig",instagram))
 
 
     # Start the Bot
