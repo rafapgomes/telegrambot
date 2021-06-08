@@ -23,7 +23,6 @@ def get_media_type(json_text):
 #Pega o link de download da midia
 def get_download_link(json_text):
     obj_json = json.loads(json_text)
-    print(json.dumps(obj_json,indent=4))
     if get_media_type(json_text)== 'GraphImage':
         obj_json = json.loads(json_text)
         return {'url':obj_json['graphql']['shortcode_media']['display_url'],'tipo':1,'owner': obj_json['graphql']['shortcode_media']['owner']['full_name']}
