@@ -1,3 +1,4 @@
-# Bot para Telegram que baixa fotos,videos e stories de uma conta no Instagram
+# Bot para Telegram
 
-- Baixa fotos,videos e midias com multiplas fotos ou videos
+- Baixa fotos,videos e midias do Instagram com multiplas fotos ou videos
+- Baixa videos do twitter
