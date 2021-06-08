@@ -5,6 +5,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
 import principal
 import arq
 import telegramkeys
+import twittervid
 # Enable logging
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
@@ -22,7 +23,7 @@ def start(update: Update, context: CallbackContext) -> None:
         fr'Hi {user.mention_markdown_v2()}\!',
         reply_markup=ForceReply(selective=True),
     )
-    update.message.reply_text('Ola! Eu sou um bot que baixa videos e fotos do Instagram! Digite /ig + link da midia e eu baixo pra você.')
+    update.message.reply_text('Ola! Eu sou um bot que baixa videos e fotos do Instagram! Digite /ig + link da midia e eu baixo pra você. Tambem baixo videos do twitter. Digite /tt e o link do video e eu baixo pra você')
 
 
 def help_command(update: Update, context: CallbackContext) -> None:
@@ -31,10 +32,7 @@ def help_command(update: Update, context: CallbackContext) -> None:
 
 
 def instagram(update: Update, context: CallbackContext) -> None:
-    print(context.args[0])
-    page = scrapepage.get_photo_page(context.args[0])
-    json_text = scrapepage.get_json_media_page(page)
-    vetor = scrapepage.get_download_link(json_text)
+    vetor = principal.get_insta_post(context.args[0])
     #Baixa sidecar (publicações com multiplas midias juntas)
     if  vetor['tipo']==2:
             update.message.reply_text('Baixando multiplas midias de '+vetor['owner'])
@@ -63,9 +61,11 @@ def instagram(update: Update, context: CallbackContext) -> None:
 
 
 
-
-   
-
+def twitter(update: Update, context: CallbackContext) -> None:
+    principal.envio_twitter(update,context.args[0])
+    print('Envio completo!')
+    arq.deleta('ttvid')
+    print('Pasta limpa')
 
 
 def main() -> None:
@@ -81,9 +81,8 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("help", help_command))
 
-    # on non command i.e message - echo the message on Telegram
     dispatcher.add_handler(CommandHandler("ig",instagram))
-
+    dispatcher.add_handler(CommandHandler("tt",twitter))
 
     # Start the Bot
     updater.start_polling()
