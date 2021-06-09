@@ -28,27 +28,31 @@ def start(update: Update, context: CallbackContext) -> None:
     update.message.reply_text('Digite /ig + link da midia e eu baixo pra você. Tambem baixo videos do twitter. Digite /tt e o link do video e eu baixo pra você')
     update.message.reply_text('Atenção: Funçao de dados de times em desenvolvimento,pode apresentar erros!')
     update.message.reply_text('Times disponivéis e suas siglas para acesso:')
-    update.message.reply_text(
-          'FOR:' 'Fortaleza - CE', 
-          'ATH:' 'Athletico Paranaense - PR', 
-          'AGO:' 'Atlético - GO',
-          'RED:' 'Red Bull Bragantino - SP',
-          'BAH:''Bahia - BA',
-          'FLU:''Fluminense - RJ',
-          'PAL:''Palmeiras - SP',
-          'FLA:''Flamengo - RJ',
-          'CAM:''Atlético Mineiro - MG',
-          'COR:''Corinthians - SP',
-          'CEA:''Ceará - CE',
-          'SAN:''Santos - SP',
-          'CUI:''Cuiabá - MT',
-          'SPO:''Sport - PE',
-          'SAO:''São Paulo - SP',
-          'JUV:''Juventude - RS',
-          'INT:''Internacional - RS',
-          'GRE:''Grêmio - RS',
-          'AME:''America - MG',
-          'CHA:''Chapecoense - SC')
+    update.message.reply_text('FOR: Fortaleza - CE')
+    update.message.reply_text('ATH: Athletico Paranaense - PR')
+    update.message.reply_text('AGO: Atlético - GO')
+    update.message.reply_text('RED: Red Bull Bragantino - SP')
+    update.message.reply_text('BAH: Bahia - BA')
+    update.message.reply_text('FLU: Fluminense - RJ')
+    update.message.reply_text('FLA: Flamengo - RJ')
+    update.message.reply_text('CAM: Atlético Mineiro - MG')
+    update.message.reply_text('COR: Corinthians - SP')
+    update.message.reply_text('CEA: Ceará - CE')
+    update.message.reply_text('SAN:Santos - SP')
+    update.message.reply_text('CUI:Cuiabá - MT')
+    update.message.reply_text('SPO:Sport - PE')
+    update.message.reply_text('SAO:São Paulo - SP')
+    update.message.reply_text('JUV Juventude - RS')
+    update.message.reply_text('CHA:Chapecoense - SC')
+    update.message.reply_text('INT: Internacional - RS')
+    update.message.reply_text('GRE: Grêmio - RS')
+    update.message.reply_text('AME: America - MG')
+
+
+          
+          
+          
+    
 
 
 

@@ -53,5 +53,5 @@ def envia_info_jogos(update,info_time):
     for i in range(num):
         jogo = cbf_scraper.get_jogo(i,time)
         info = cbf_scraper.get_info_jogo(jogo)
-        update.message.reply_text('Data:'+ info['desc'])
+        update.message.reply_text('Rodada '+str(i+1)+' Data:'+ info['desc'])
         update.message.reply_text(info['casa'] + " " + info['info_geral'] + " " + info['fora'])
