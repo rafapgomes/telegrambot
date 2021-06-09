@@ -5,7 +5,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
 import principal
 import arq
 import telegramkeys
-import twittervid
+import cbf_scraper
 # Enable logging
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
@@ -19,11 +19,37 @@ logger = logging.getLogger(__name__)
 def start(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /start is issued."""
     user = update.effective_user
+    
     update.message.reply_markdown_v2(
         fr'Hi {user.mention_markdown_v2()}\!',
         reply_markup=ForceReply(selective=True),
     )
-    update.message.reply_text('Ola! Eu sou um bot que baixa videos e fotos do Instagram! Digite /ig + link da midia e eu baixo pra você. Tambem baixo videos do twitter. Digite /tt e o link do video e eu baixo pra você')
+    update.message.reply_text('Ola! Eu sou um bot que baixa videos e fotos do Instagram!') 
+    update.message.reply_text('Digite /ig + link da midia e eu baixo pra você. Tambem baixo videos do twitter. Digite /tt e o link do video e eu baixo pra você')
+    update.message.reply_text('Atenção: Funçao de dados de times em desenvolvimento,pode apresentar erros!')
+    update.message.reply_text('Times disponivéis e suas siglas para acesso:')
+    update.message.reply_text(
+          'FOR:' 'Fortaleza - CE', 
+          'ATH:' 'Athletico Paranaense - PR', 
+          'AGO:' 'Atlético - GO',
+          'RED:' 'Red Bull Bragantino - SP',
+          'BAH:''Bahia - BA',
+          'FLU:''Fluminense - RJ',
+          'PAL:''Palmeiras - SP',
+          'FLA:''Flamengo - RJ',
+          'CAM:''Atlético Mineiro - MG',
+          'COR:''Corinthians - SP',
+          'CEA:''Ceará - CE',
+          'SAN:''Santos - SP',
+          'CUI:''Cuiabá - MT',
+          'SPO:''Sport - PE',
+          'SAO:''São Paulo - SP',
+          'JUV:''Juventude - RS',
+          'INT:''Internacional - RS',
+          'GRE:''Grêmio - RS',
+          'AME:''America - MG',
+          'CHA:''Chapecoense - SC')
+
 
 
 def help_command(update: Update, context: CallbackContext) -> None:
@@ -67,12 +93,19 @@ def twitter(update: Update, context: CallbackContext) -> None:
     arq.deleta('ttvid')
     print('Pasta limpa')
 
+def time(update: Update, context: CallbackContext) -> None:
+    info_time = cbf_scraper.get_rodada(context.args[0])
+    principal.envia_info_jogos(update,info_time)
+
+   
+    
+
 
 def main() -> None:
     """Start the bot."""
     # Create the Updater and pass it your bot's token.
     token = telegramkeys.token  
-    updater = Updater(token)
+    updater = Updater('1801533855:AAGpl_hLCl5cJU_EL2V0aEsIimei9k-LvKs')
 
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
@@ -83,6 +116,7 @@ def main() -> None:
 
     dispatcher.add_handler(CommandHandler("ig",instagram))
     dispatcher.add_handler(CommandHandler("tt",twitter))
+    dispatcher.add_handler(CommandHandler("time",time))
 
     # Start the Bot
     updater.start_polling()
