@@ -2,9 +2,15 @@ import json
 import getpage
 from bs4 import BeautifulSoup as bs
 
+
+
+
+
+
+
 #Faz o reuqest pela pagina da midia
-def get_photo_page(url):
-   return getpage.request(url)
+def get_photo_page(url,headers,cookies):
+   return getpage.request(url,headers,cookies)
 
 #Pega o JSON da midia
 
