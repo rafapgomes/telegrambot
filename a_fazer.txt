@@ -1,0 +1,3 @@
+Adicionar função para baixar stories 
+Mostrar dados de times da Série B e Copa do Brasil
+Mostrar a tabela da série A e B
