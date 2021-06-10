@@ -31,7 +31,7 @@ def start(update: Update, context: CallbackContext) -> None:
     update.message.reply_text('FOR: Fortaleza - CE')
     update.message.reply_text('ATH: Athletico Paranaense - PR')
     update.message.reply_text('AGO: Atlético - GO')
-    update.message.reply_text('RED: Red Bull Bragantino - SP')
+    update.message.reply_text('BRA: Red Bull Bragantino - SP')
     update.message.reply_text('BAH: Bahia - BA')
     update.message.reply_text('FLU: Fluminense - RJ')
     update.message.reply_text('FLA: Flamengo - RJ')
@@ -98,8 +98,15 @@ def twitter(update: Update, context: CallbackContext) -> None:
     print('Pasta limpa')
 
 def time(update: Update, context: CallbackContext) -> None:
-    info_time = cbf_scraper.get_rodada(context.args[0])
-    principal.envia_info_jogos(update,info_time)
+    info_time = cbf_scraper.get_rodada(context.args[0],'a')
+    if type(info_time) == type(None):
+        info_time = cbf_scraper.get_rodada(context.args[0],'b')
+        principal.envia_info_jogos(update,info_time)
+
+        
+
+    else:
+          principal.envia_info_jogos(update,info_time)
 
    
     
