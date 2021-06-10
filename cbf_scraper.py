@@ -42,10 +42,10 @@ def get_info_jogo(jogo):
     desc = desc[30:47]
     #Pega o time da casa:
     time_casa = jogo.find(class_='time pull-left')     
-    time_casa = time_casa.find(class_='time-sigla').contents[0]
+    time_casa = time_casa.find('img')['title']
     #Pega o time de fora:
     time_fora = jogo.find(class_='time pull-right')     
-    time_fora = time_fora.find(class_='time-sigla').contents[0]
+    time_fora = time_fora.find('img')['title']
     res = jogo.find(class_='partida-horario center-block')
     #Testa se a tag onde fica o resultado/horario tem elemento filho
     childTag = res.find(class_='bg-blue color-white label-2')

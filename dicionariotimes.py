@@ -1,7 +1,7 @@
 siglas = {'FOR': 'Fortaleza - CE', 
           'ATH': 'Athletico Paranaense - PR', 
           'AGO': 'Atlético - GO',
-          'RED': 'Red Bull Bragantino - SP',
+          'BRA': 'Red Bull Bragantino - SP',
           'BAH':'Bahia - BA',
           'FLU':'Fluminense - RJ',
           'PAL':'Palmeiras - SP',

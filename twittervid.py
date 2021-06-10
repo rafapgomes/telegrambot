@@ -13,4 +13,6 @@ def spliturl(url):
 
 def getvideourl(id):
     tweet = twitter.get_status(id,tweet_mode="extended")
-    return (tweet.extended_entities['media'][0]['video_info']['variants'][0]['url'])
+    for i in tweet.extended_entities['media'][0]['video_info']['variants']:
+       if i['content_type'] == 'video/mp4':
+                return i['url']
