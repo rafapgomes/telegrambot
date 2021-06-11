@@ -6,6 +6,7 @@ import principal
 import arq
 import telegramkeys
 import cbf_scraper
+import dicionariotimes
 # Enable logging
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
@@ -28,7 +29,8 @@ def start(update: Update, context: CallbackContext) -> None:
     update.message.reply_text('Digite /ig + link da midia e eu baixo pra você. Tambem baixo videos do twitter. Digite /tt e o link do video e eu baixo pra você')
     update.message.reply_text('Atenção: Funçao de dados de times em desenvolvimento,pode apresentar erros!')
     update.message.reply_text('Times disponivéis e suas siglas para acesso:')
-    
+    for sig, time in dicionariotimes.sigla.items():
+        update.message.reply_text(str(sig) +": "+str(time))
 
           
           
