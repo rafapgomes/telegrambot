@@ -22,15 +22,14 @@ def start(update: Update, context: CallbackContext) -> None:
     user = update.effective_user
     
     update.message.reply_markdown_v2(
-        fr'Hi {user.mention_markdown_v2()}\!',
-        reply_markup=ForceReply(selective=True),
-    )
+        fr'Hi {user.mention_markdown_v2()}\!'
+       )
     update.message.reply_text('Ola! Eu sou um bot que baixa videos e fotos do Instagram!') 
-    update.message.reply_text('Digite /ig + link da midia e eu baixo pra você. Tambem baixo videos do twitter. Digite /tt e o link do video e eu baixo pra você')
+    update.message.reply_text('Digite /ig + link da midia e eu baixo pra você. \n Tambem baixo videos do twitter. Digite /tt e o link do video e eu baixo pra você \n Digite /time +sigla para ver os jogos recentes do Brasileirão Serie A ou B')
     update.message.reply_text('Atenção: Funçao de dados de times em desenvolvimento,pode apresentar erros!')
     update.message.reply_text('Times disponivéis e suas siglas para acesso:')
     for sig, time in dicionariotimes.siglas.items():
-        update.message.reply_text(str(sig) +": "+str(time))
+        update.message.reply_text(str(sig) +": "+str(time[0]))
 
           
           
@@ -81,15 +80,8 @@ def twitter(update: Update, context: CallbackContext) -> None:
     print('Pasta limpa')
 
 def time(update: Update, context: CallbackContext) -> None:
-    info_time = cbf_scraper.get_rodada(context.args[0],'a')
-    if type(info_time) == type(None):
-        info_time = cbf_scraper.get_rodada(context.args[0],'b')
-        principal.envia_info_jogos(update,info_time)
-
-        
-
-    else:
-          principal.envia_info_jogos(update,info_time)
+    info_time = cbf_scraper.get_rodada(context.args[0].upper())
+    principal.envia_info_jogos(update,info_time)
 
    
     
@@ -99,7 +91,7 @@ def main() -> None:
     """Start the bot."""
     # Create the Updater and pass it your bot's token.
     token = telegramkeys.token  
-    updater = Updater('1801533855:AAGpl_hLCl5cJU_EL2V0aEsIimei9k-LvKs')
+    updater = Updater(token)
 
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
