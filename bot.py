@@ -91,7 +91,7 @@ def main() -> None:
     """Start the bot."""
     # Create the Updater and pass it your bot's token.
     token = telegramkeys.token  
-    updater = Updater("1801533855:AAGpl_hLCl5cJU_EL2V0aEsIimei9k-LvKs")
+    updater = Updater(token)
 
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
