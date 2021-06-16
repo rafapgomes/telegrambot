@@ -64,5 +64,5 @@ def get_info_partida(link):
     page = getpage.request(link,headers,cookies)
     soup = bs(page,'html.parser')
     lista =  soup.find_all(class_='text-2 p-r-20')
-    return lista[3].text
+    return lista[-1].text
     
