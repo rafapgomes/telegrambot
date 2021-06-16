@@ -63,6 +63,11 @@ def get_info_jogo(jogo):
 def get_info_partida(link):
     page = getpage.request(link,headers,cookies)
     soup = bs(page,'html.parser')
-    lista =  soup.find_all(class_='text-2 p-r-20')
-    return lista[-1].text
+    tag =  soup.find(class_='col-sm-4 text-right')
+    childTag = tag.find(class_="text-2 p-r-20")
+    if childTag:
+        transmissao = childTag.text
+    else:
+        transmissao = 'Nao disponivel'
+    return transmissao
     
