@@ -67,8 +67,10 @@ def envia_info_jogos(update,info_time):
         update.message.reply_text('Rodada '+str(i+1)+'\n'+'Data:'+ info['desc']+'\n'+info['casa'] + " " + info['info_geral'] + " " + info['fora']+'\n'+'Transmissao: '+transmissao)
         
 def envia_stories(update,url):
+    sessionid = igscraper.login(iglogin.user,iglogin.senha)
+
     headers = { 'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Instagram 105.0.0.11.118 (iPhone11,8; iOS 12_3_1; en_US; en-US; scale=2.00; 828x1792; 165586599)'}
-    cookies = {'sessionid':'2113549053%3AtGkgYyZyFRWHuy%3A13'}
+    cookies = {'sessionid':str(sessionid)}
 
     info = stories.split_link(url)
     user_id = stories.get_stories_info_page("https://www.instagram.com/stories/"+info['user']+"/?__a=1",headers,cookies)
