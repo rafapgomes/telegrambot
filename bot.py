@@ -1,5 +1,5 @@
 import logging
-import scrapepage
+import igscraper
 from telegram import Update, ForceReply
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 import principal
@@ -83,7 +83,8 @@ def time(update: Update, context: CallbackContext) -> None:
     info_time = cbf_scraper.get_rodada(context.args[0].upper())
     principal.envia_info_jogos(update,info_time)
 
-   
+def stories(update: Update, context: CallbackContext) -> None:
+    principal.envia_stories(update,context.args[0])
     
 
 
@@ -91,7 +92,7 @@ def main() -> None:
     """Start the bot."""
     # Create the Updater and pass it your bot's token.
     token = telegramkeys.token  
-    updater = Updater(token)
+    updater = Updater("1801533855:AAGpl_hLCl5cJU_EL2V0aEsIimei9k-LvKs")
 
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
@@ -103,6 +104,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler("ig",instagram))
     dispatcher.add_handler(CommandHandler("tt",twitter))
     dispatcher.add_handler(CommandHandler("time",time))
+    dispatcher.add_handler(CommandHandler("stories",stories))
 
     # Start the Bot
     updater.start_polling()

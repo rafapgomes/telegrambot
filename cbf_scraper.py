@@ -1,9 +1,5 @@
-from os import kill
-from typing import Text
 from bs4 import BeautifulSoup as bs
-from requests.api import get
 import getpage
-import unidecode
 import dicionariotimes
 headers = { 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:88.0) Gecko/20100101 Firefox/88.0'}
 cookies = {'cookie': 'cookie'}

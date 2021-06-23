@@ -1,9 +1,8 @@
 import json
 import getpage
 from bs4 import BeautifulSoup as bs
-
-
-
+import requests
+from datetime import datetime
 
 
 
@@ -11,11 +10,50 @@ from bs4 import BeautifulSoup as bs
 #Faz o reuqest pela pagina da midia
 def get_photo_page(url,headers,cookies):
    return getpage.request(url,headers,cookies)
+#Pega um novo seasonID
+def login(user,senha):
+    print(user)
+    print(senha)
+    header = {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0"
+
+            }
+    link = 'https://www.instagram.com/accounts/login/'
+    login_url = 'https://www.instagram.com/accounts/login/ajax/'
+
+    time = int(datetime.now().timestamp())
+    response = requests.get(link,headers=header)
+    csrf = response.cookies['csrftoken']
+
+    payload = {
+    'username': user,
+    'enc_password': f'#PWD_INSTAGRAM_BROWSER:0:{time}:{senha}',
+    'queryParams': {},
+    'optIntoOneTap': 'false'
+    }
+
+    login_header = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36",
+    "X-Requested-With": "XMLHttpRequest",
+    "Referer": "https://www.instagram.com/accounts/login/",
+    "x-csrftoken": csrf
+    }
+
+    login_response = requests.post(login_url, data=payload, headers=login_header)
+    json_data = json.loads(login_response.text)
+
+    if json_data["authenticated"]:
+        cookies = login_response.cookies
+        cookie_jar = cookies.get_dict()
+        session_id = cookie_jar['sessionid']
+        return session_id
+    else:
+        print("login failed ", login_response.text)
+
+
+
 
 #Pega o JSON da midia
-
-
-
 def get_json_media_page(page):
     soup = bs(page,'html.parser')
     lista = soup.find_all('script')

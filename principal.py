@@ -1,15 +1,19 @@
 import arq
-import scrapepage
+import igscraper
 import twittervid
 import cbf_scraper
+import stories
+import iglogin
 #pega os links da midia do instagram
 def get_insta_post(url):
-    headers = { 'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Instagram 105.0.0.11.118 (iPhone11,8; iOS 12_3_1; en_US; en-US; scale=2.00; 828x1792; 165586599)'}
-    cookies = {'sessionid':'2113549053%3ABmcfoaxek5Sg7A%3A29'}
 
-    page = scrapepage.get_photo_page(url,headers,cookies)
-    json_text = scrapepage.get_json_media_page(page)
-    vetor = scrapepage.get_download_link(json_text)
+    sessionid = igscraper.login(iglogin.user,iglogin.senha)
+    headers = { 'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Instagram 105.0.0.11.118 (iPhone11,8; iOS 12_3_1; en_US; en-US; scale=2.00; 828x1792; 165586599)'}
+    cookies = {'sessionid':str(sessionid)}
+
+    page = igscraper.get_photo_page(url,headers,cookies)
+    json_text = igscraper.get_json_media_page(page)
+    vetor = igscraper.get_download_link(json_text)
     return vetor
 
 #envia multiplas midias
@@ -62,3 +66,20 @@ def envia_info_jogos(update,info_time):
         transmissao = cbf_scraper.get_info_partida(link)
         update.message.reply_text('Rodada '+str(i+1)+'\n'+'Data:'+ info['desc']+'\n'+info['casa'] + " " + info['info_geral'] + " " + info['fora']+'\n'+'Transmissao: '+transmissao)
         
+def envia_stories(update,url):
+    headers = { 'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Instagram 105.0.0.11.118 (iPhone11,8; iOS 12_3_1; en_US; en-US; scale=2.00; 828x1792; 165586599)'}
+    cookies = {'sessionid':'2113549053%3AtGkgYyZyFRWHuy%3A13'}
+
+    info = stories.split_link(url)
+    user_id = stories.get_stories_info_page("https://www.instagram.com/stories/"+info['user']+"/?__a=1",headers,cookies)
+    obj_json = stories.get_stories_page("https://i.instagram.com/api/v1/feed/reels_media/?reel_ids="+user_id,headers,cookies,user_id)
+    item = stories.nav_stories(obj_json,info['reels_id'])
+    link = stories.get_download_link(item)
+    if link['type'] == 1:
+        arq.download(link['url'],"1",".jpeg")
+        update.message.reply_photo(photo=open("1.jpeg",'rb'))
+    if link['type'] == 2:
+        arq.download(link['url'],"1",".mp4")
+        update.message.reply_video(video=open("1.mp4",'rb'))
+
+
