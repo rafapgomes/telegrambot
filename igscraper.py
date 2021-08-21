@@ -41,7 +41,7 @@ def login(user,senha):
 
     login_response = requests.post(login_url, data=payload, headers=login_header)
     json_data = json.loads(login_response.text)
-
+    print(json_data)
     if json_data["authenticated"]:
         cookies = login_response.cookies
         cookie_jar = cookies.get_dict()
