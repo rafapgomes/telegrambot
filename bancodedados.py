@@ -14,7 +14,7 @@ def logar(name,password,user,host):
     return conn
 
 
-def inserir(user_id,time,conm):
+def inserir(user_id,time):
     conm = logar(name,password,user,host)
     cur = conm.cursor()
     cur.execute("INSERT INTO times_usuarios (user_id,time) VALUES (%s,%s)",(user_id,time))
