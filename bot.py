@@ -1,5 +1,5 @@
 import logging
-import igscraper
+import bancodedados
 from telegram import Update, ForceReply
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 import principal
@@ -39,7 +39,8 @@ def start(update: Update, context: CallbackContext) -> None:
 def help_command(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /help is issued."""
     update.message.reply_text('Help!')
-    print(Update.effective_user)
+    print(update.effective_user.id)
+    update.message.reply
 
 
 
@@ -88,6 +89,15 @@ def stories(update: Update, context: CallbackContext) -> None:
     
 
 
+
+def cadastro(update: Update, context: CallbackContext) -> None:
+    bancodedados.inserir(update.effective_user.id,context[0])
+
+def descadastrar(update: Update, context: CallbackContext) -> None:
+    bancodedados.remover(update.effective_user.id)
+
+
+
 def main() -> None:
     """Start the bot."""
     # Create the Updater and pass it your bot's token.
@@ -105,6 +115,8 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler("tt",twitter))
     dispatcher.add_handler(CommandHandler("time",time))
     dispatcher.add_handler(CommandHandler("stories",stories))
+    dispatcher.add_handler(CommandHandler("cadastrar",cadastro))
+    dispatcher.add_handler(CommandHandler("descadastrar",descadastrar))
 
     # Start the Bot
     updater.start_polling()
