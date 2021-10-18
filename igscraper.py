@@ -45,6 +45,7 @@ def login(user,senha):
     if json_data["authenticated"]:
         cookies = login_response.cookies
         cookie_jar = cookies.get_dict()
+        print(cookie_jar)
         session_id = cookie_jar['sessionid']
         return session_id
     else:
@@ -57,33 +58,33 @@ def login(user,senha):
 def get_json_media_page(page):
     soup = bs(page,'html.parser')
     lista = soup.find_all('script')
-    text = lista[15].contents[0]
-    text = text.split(',',1)[1]
-    return text[0:len(text)-2]
+
+    text = lista[4].contents[0]
+    text = text.split('=',1)[1]
+    return text[0:len(text)-1]
 #Retorna  tipo da midia
 def get_media_type(json_text):
     obj_json = json.loads(json_text)
-    return obj_json['graphql']['shortcode_media']['__typename']  
+    return obj_json['entry_data']['PostPage'][0]['graphql']['shortcode_media']['__typename']  
 #Pega o link de download da midia
 def get_download_link(json_text):
     obj_json = json.loads(json_text)
     if get_media_type(json_text)== 'GraphImage':
         obj_json = json.loads(json_text)
-        return {'url':obj_json['graphql']['shortcode_media']['display_url'],'tipo':1,'owner': obj_json['graphql']['shortcode_media']['owner']['full_name']}
+        obj_json = obj_json['entry_data']['PostPage'][0]
+        return {'url':obj_json['graphql']['shortcode_media']['display_url'],'tipo':1,'owner': obj_json['graphql']['shortcode_media']['owner']['username']}
        
     elif get_media_type(json_text) == 'GraphSidecar':
           return get_sidecar_single_media(obj_json['graphql']['shortcode_media'])
     elif get_media_type(json_text) == 'GraphVideo':
-         print('oi')
          print(obj_json['graphql']['shortcode_media']['video_url'])
-         return {'url':obj_json['graphql']['shortcode_media']['video_url'],'tipo':3,'owner': obj_json['graphql']['shortcode_media']['owner']['full_name']}
+         return {'url':obj_json['graphql']['shortcode_media']['video_url'],'tipo':3,'owner': obj_json['graphql']['shortcode_media']['owner']['username']}
 
 
 
 #Pega o link de downloads de multiplas midias
 def get_sidecar_single_media(lista):
     vetor = []
-    print('oi')
     for i in lista['edge_sidecar_to_children']['edges']:
         if i['node']['__typename']== 'GraphImage':
                 vetor.append(1)

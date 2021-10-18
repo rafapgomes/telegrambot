@@ -91,8 +91,8 @@ def stories(update: Update, context: CallbackContext) -> None:
 
 
 def cadastro(update: Update, context: CallbackContext) -> None:
-    bancodedados.inserir(update.effective_user.id,context.args[0])
-
+        bancodedados.inserir(update.effective_user.id,context.args[0],update)
+    
 def descadastrar(update: Update, context: CallbackContext) -> None:
     bancodedados.remover(update.effective_user.id)
 
