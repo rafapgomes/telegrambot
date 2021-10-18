@@ -57,8 +57,9 @@ def login(user,senha):
 #Pega o JSON da midia
 def get_json_media_page(page):
     soup = bs(page,'html.parser')
+    print(soup.prettify())
     lista = soup.find_all('script')
-
+    
     text = lista[4].contents[0]
     text = text.split('=',1)[1]
     return text[0:len(text)-1]
