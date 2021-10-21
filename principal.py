@@ -7,8 +7,8 @@ import iglogin
 #pega os links da midia do instagram
 def get_insta_post(url):
 
-    headers = { 'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Instagram 105.0.0.11.118 (iPhone11,8; iOS 12_3_1; en_US; en-US; scale=2.00; 828x1792; 165586599)'}
-    cookies = {'sessionid':'50169246075%3AZuH3uEqig96NHt%3A24'}
+    headers = { 'user-agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:92.0) Gecko/20100101 Firefox/92.0'}
+    cookies = {'sessionid':'2113549053%3Abrb9tvModZWPZf%3A24'}
 
     page = igscraper.get_photo_page(url,headers,cookies)
     print(page)

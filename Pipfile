@@ -8,8 +8,6 @@ requests = "*"
 beautifulsoup4 = "*"
 python-telegram-bot = "*"
 tweepy = "*"
-unidecode = "*"
-psycopg2-binary = "*"
 
 [dev-packages]
 
