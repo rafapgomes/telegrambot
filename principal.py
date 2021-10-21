@@ -89,4 +89,3 @@ def envia_stories(update,url):
         update.message.reply_video(video=open("1.mp4",'rb'))
 
 
-get_insta_post("https://www.instagram.com/p/CUV5sWoAUgw/")
