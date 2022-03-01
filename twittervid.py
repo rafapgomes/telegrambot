@@ -1,8 +1,7 @@
 import ttkeys
 import tweepy
-autenticacao = tweepy.OAuthHandler(ttkeys.consumer_key,ttkeys.consumer_secret)
+autenticacao = tweepy.OAuthHandler(ttkeys.consumer_key,ttkeys.consumer_secret,ttkeys.access_token,ttkeys.access_token_secret)
 
-autenticacao.set_access_token(ttkeys.access_token,ttkeys.access_token_secret)
 
 twitter = tweepy.API(autenticacao)
 
