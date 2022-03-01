@@ -17,7 +17,9 @@ def getvideourl(id):
                 return i['url']
 
 
-
-        
+    print("hello")
+    id = spliturl("https://twitter.com/LuvadePedreiro/status/1498388431285755908")
+    print(id)
+    url = getvideourl(id)
 
 
