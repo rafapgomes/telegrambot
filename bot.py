@@ -1,5 +1,4 @@
 import logging
-import bancodedados
 from telegram import Update, ForceReply
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 import principal
@@ -43,59 +42,9 @@ def help_command(update: Update, context: CallbackContext) -> None:
     update.message.reply
 
 
-
-def instagram(update: Update, context: CallbackContext) -> None:
-    vetor = principal.get_insta_post(context.args[0])
-    #Baixa sidecar (publicações com multiplas midias juntas)
-    if  vetor['tipo']==2:
-            update.message.reply_text('Baixando multiplas midias de '+vetor['owner'])
-            principal.envio_sidecar(update,vetor['url'])
-            print('Envio completo!')
-            arq.deleta('midia')
-            print('Pasta limpa')
-
-    #Baixa foto unica
-    elif vetor['tipo']==1:
-            print('foto unica')
-            update.message.reply_text('Baixando a foto de '+vetor['owner'])
-            principal.envio_single_photo(update,vetor['url'])
-            print('Envio completo!')
-            arq.deleta('midia')
-            print('Pasta limpa')
-    elif vetor['tipo']==3:
-            print('video unica')
-
-            update.message.reply_text('Baixando o video de '+vetor['owner'])
-            print(vetor['url'])
-            principal.envio_single_video(update,vetor['url'])
-            print('Envio completo!')
-            arq.deleta('midia')
-            print('Pasta limpa')
-
-
-
-def twitter(update: Update, context: CallbackContext) -> None:
-    principal.envio_twitter(update,context.args[0])
-    print('Envio completo!')
-    arq.deleta('ttvid')
-    print('Pasta limpa')
-
 def time(update: Update, context: CallbackContext) -> None:
     info_time = cbf_scraper.get_rodada(context.args[0].upper())
     principal.envia_info_jogos(update,info_time)
-
-def stories(update: Update, context: CallbackContext) -> None:
-    principal.envia_stories(update,context.args[0])
-    
-
-
-
-def cadastro(update: Update, context: CallbackContext) -> None:
-        bancodedados.inserir(update.effective_user.id,context.args[0],update)
-    
-def descadastrar(update: Update, context: CallbackContext) -> None:
-    bancodedados.remover(update.effective_user.id)
-
 
 
 def main() -> None:
@@ -110,14 +59,7 @@ def main() -> None:
     # on different commands - answer in Telegram
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("help", help_command))
-
-    dispatcher.add_handler(CommandHandler("ig",instagram))
-    dispatcher.add_handler(CommandHandler("tt",twitter))
     dispatcher.add_handler(CommandHandler("time",time))
-    dispatcher.add_handler(CommandHandler("stories",stories))
-    dispatcher.add_handler(CommandHandler("cadastrar",cadastro))
-    dispatcher.add_handler(CommandHandler("descadastrar",descadastrar))
-
     # Start the Bot
     updater.start_polling()
 
