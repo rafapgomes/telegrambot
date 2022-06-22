@@ -23,9 +23,7 @@ def start(update: Update, context: CallbackContext) -> None:
     update.message.reply_markdown_v2(
         fr'Hi {user.mention_markdown_v2()}\!'
        )
-    update.message.reply_text('Ola! Eu sou um bot que baixa videos e fotos do Instagram!') 
-    update.message.reply_text('Digite /ig + link da midia e eu baixo pra você. \n Tambem baixo videos do twitter. Digite /tt e o link do video e eu baixo pra você \n Digite /time +sigla para ver os jogos recentes do Brasileirão Serie A ou B')
-    update.message.reply_text('Atenção: Funçao de dados de times em desenvolvimento,pode apresentar erros!')
+    update.message.reply_text('Digite /time +sigla para ver os jogos recentes do Brasileirão Serie A ou B')
     update.message.reply_text('Times disponivéis e suas siglas para acesso:')
     for sig, time in dicionariotimes.siglas.items():
         update.message.reply_text(str(sig) +": "+str(time[0]))
