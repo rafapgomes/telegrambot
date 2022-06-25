@@ -36,5 +36,8 @@ siglas = {'FOR': ('Fortaleza - CE','a'),
           'LON': ('Londrina - PR','b'),
           'ITU': ('Ituano - SP','b'),
           'TOM': ('Tombense - MG','b'),
+          'PON': ('Ponte Preta - SP','b'),
+          'NOV': ('Novorizontino - SP','b'),
+          'NAU': ('Tombense - MG','b'),
           'VAS': ('Vasco da Gama - RJ','b'),
                         }
