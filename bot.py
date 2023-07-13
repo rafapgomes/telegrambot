@@ -1,71 +1,44 @@
-import logging
-from telegram import Update, ForceReply
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
-import principal
-import arq
-import telegramkeys
+import telebot
 import cbf_scraper
+import principal
 import dicionariotimes
-# Enable logging
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
-)
-
-logger = logging.getLogger(__name__)
 
 
-# Define a few command handlers. These usually take the two arguments update and
-# context.
-def start(update: Update, context: CallbackContext) -> None:
-    """Send a message when the command /start is issued."""
-    user = update.effective_user
-    
-    update.message.reply_markdown_v2(
-        fr'Hi {user.mention_markdown_v2()}\!'
-       )
-    update.message.reply_text('Digite /time +sigla para ver os jogos recentes do Brasileirão Serie A ou B')
-    update.message.reply_text('Times disponivéis e suas siglas para acesso:')
+
+chave_api = "6327232256:AAGgEtcf2pBngojcD_MUiaK0SM0U6vQeaLQ"
+
+bot = telebot.TeleBot(chave_api)
+
+
+@bot.message_handler(commands=['start'])
+def start(mensagem):
+    bot.send_message(mensagem.chat.id,'Digite /time +sigla para ver os jogos recentes do Brasileirão Serie A ou B')
+    bot.send_message(mensagem.chat.id,'Times disponivéis e suas siglas para acesso:')
+    bot.send_message(mensagem.chat.id,'Série A')
+    cont = 0
     for sig, time in dicionariotimes.siglas.items():
-        update.message.reply_text(str(sig) +": "+str(time[0]))
+        bot.send_message(mensagem.chat.id,str(sig) +": "+str(time[0]))
+        if(cont == 19):
+                bot.send_message(mensagem.chat.id,'Série B')
+        cont = cont +1
 
-          
-          
-          
+@bot.message_handler(commands=['time'])
+def time(mensagem):
+
+    print(mensagem)
+    time = " ".join(mensagem.text.split(" ")[1:])
     
+    bot.send_message(mensagem.chat.id,"Buscando informações de jogos do, aguarde")
+    info_time = cbf_scraper.get_rodada(time.upper())
+  
+    rodada = info_time['rodada']
+    rodada = int(rodada)
+    cont = rodada
+    for i in range(cont-1,rodada + 3):
+       info_jogo,transmissao = principal.envia_info_jogo(i,info_time)
+       bot.send_message(mensagem.chat.id,'Rodada '+ str(i)  +'\n'+'Data:'+ info_jogo['desc']+'\n'+info_jogo['casa'] + " " + 
+                        info_jogo['info_geral'] + " " + info_jogo['fora']+'\n'+'Transmissao: '+transmissao)
 
-def help_command(update: Update, context: CallbackContext) -> None:
-    """Send a message when the command /help is issued."""
-    update.message.reply_text('Help!')
-    print(update.effective_user.id)
-    update.message.reply
+bot.polling()
 
-
-def time(update: Update, context: CallbackContext) -> None:
-    info_time = cbf_scraper.get_rodada(context.args[0].upper())
-    principal.envia_info_jogos(update,info_time)
-
-
-def main() -> None:
-    """Start the bot."""
-    # Create the Updater and pass it your bot's token.
-    token = telegramkeys.token  
-    updater = Updater("1801533855:AAGpl_hLCl5cJU_EL2V0aEsIimei9k-LvKs")
-
-    # Get the dispatcher to register handlers
-    dispatcher = updater.dispatcher
-
-    # on different commands - answer in Telegram
-    dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(CommandHandler("help", help_command))
-    dispatcher.add_handler(CommandHandler("time",time))
-    # Start the Bot
-    updater.start_polling()
-
-    # Run the bot until you press Ctrl-C or the process receives SIGINT,
-    # SIGTERM or SIGABRT. This should be used most of the time, since
-    # start_polling() is non-blocking and will stop the bot gracefully.
-    updater.idle()
-
-
-if __name__ == '__main__':
-    main()
+    
