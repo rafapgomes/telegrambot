@@ -4,7 +4,7 @@ import principal
 import dicionariotimes
 import os
 
-chave_api = os.getenv("TOKEN")
+chave_api = os.getenv("token")
 
 bot = telebot.TeleBot(chave_api)
 
