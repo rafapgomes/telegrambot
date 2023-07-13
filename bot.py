@@ -2,10 +2,9 @@ import telebot
 import cbf_scraper
 import principal
 import dicionariotimes
+import os
 
-
-
-chave_api = "6327232256:AAGgEtcf2pBngojcD_MUiaK0SM0U6vQeaLQ"
+chave_api = os.getenv("TOKEN")
 
 bot = telebot.TeleBot(chave_api)
 
@@ -25,10 +24,9 @@ def start(mensagem):
 @bot.message_handler(commands=['time'])
 def time(mensagem):
 
-    print(mensagem)
     time = " ".join(mensagem.text.split(" ")[1:])
     
-    bot.send_message(mensagem.chat.id,"Buscando informações de jogos do, aguarde")
+    bot.send_message(mensagem.chat.id,"Buscando informações de jogos do" + time +", aguarde")
     info_time = cbf_scraper.get_rodada(time.upper())
   
     rodada = info_time['rodada']
