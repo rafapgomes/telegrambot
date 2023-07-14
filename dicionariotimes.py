@@ -5,7 +5,7 @@ siglas = {
           'BAH': ('Bahia - BA','a'), 
           'BOT': ('Botafogo - RJ','a'),
           'CAM': ('Atlético Mineiro - MG','a'),
-          'CEC': ('Cruzeiro SAF - MG','a'),
+          'CEC': ('Cruzeiro Saf - MG','a'),
           'CFC': ('Coritiba S.a.f. - PR','a'),
           'COR': ('Corinthians - SP','a'),
           'CUI': ('Cuiabá Saf - MT','a'),

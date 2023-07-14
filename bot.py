@@ -8,6 +8,11 @@ chave_api = os.getenv("token")
 
 bot = telebot.TeleBot(chave_api)
 
+@bot.message_handler(func=lambda m: True)
+def default(mensagem):
+        bot.send_message(mensagem.chat.id,'Comando não reconhecido')
+        bot.send_message(mensagem.chat.id,'Digite /time +sigla para ver os jogos recentes do Brasileirão Serie A ou B')
+     
 
 @bot.message_handler(commands=['start'])
 def start(mensagem):
