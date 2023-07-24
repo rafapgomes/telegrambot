@@ -30,7 +30,7 @@ def time(mensagem):
 
     time = " ".join(mensagem.text.split(" ")[1:])
     
-    bot.send_message(mensagem.chat.id,"Buscando informações de jogos do" + time +", aguarde")
+    bot.send_message(mensagem.chat.id,"Buscando informações de jogos do " + time +", aguarde")
     info_time = cbf_scraper.get_rodada(time.upper())
   
     rodada = info_time['rodada']
