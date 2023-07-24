@@ -8,11 +8,6 @@ chave_api = os.getenv("token")
 
 bot = telebot.TeleBot(chave_api)
 
-@bot.message_handler(func=lambda m: True)
-def default(mensagem):
-        bot.send_message(mensagem.chat.id,'Comando não reconhecido')
-        bot.send_message(mensagem.chat.id,'Digite /time +sigla para ver os jogos recentes do Brasileirão Serie A ou B')
-     
 
 @bot.message_handler(commands=['start'])
 def start(mensagem):
@@ -41,6 +36,12 @@ def time(mensagem):
        info_jogo,transmissao = principal.envia_info_jogo(i,info_time)
        bot.send_message(mensagem.chat.id,'Rodada '+ str(i)  +'\n'+'Data:'+ info_jogo['desc']+'\n'+info_jogo['casa'] + " " + 
                         info_jogo['info_geral'] + " " + info_jogo['fora']+'\n'+'Transmissao: '+transmissao)
+
+@bot.message_handler(func=lambda m: True)
+def default(mensagem):
+        bot.send_message(mensagem.chat.id,'Comando não reconhecido')
+        bot.send_message(mensagem.chat.id,'Digite /time +sigla para ver os jogos recentes do Brasileirão Serie A ou B')
+     
 
 bot.polling()
 

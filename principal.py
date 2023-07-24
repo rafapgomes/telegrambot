@@ -1,5 +1,7 @@
 import cbf_scraper
-    
+import ytapi
+
+
 def envia_info_jogo(rodada,info_time):
     #desmembra as informações do time
     time = info_time['time']
@@ -12,4 +14,8 @@ def envia_info_jogo(rodada,info_time):
     #retorna as informações de um jogo
     return info,transmissao
      
+
+def envia_video_jogo(info):
+    
+
 
