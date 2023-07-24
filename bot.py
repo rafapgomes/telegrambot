@@ -3,6 +3,10 @@ import cbf_scraper
 import principal
 import dicionariotimes
 import os
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 chave_api = os.getenv("TOKEN")
 
