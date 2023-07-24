@@ -49,4 +49,5 @@ def default(mensagem):
 
 bot.polling()
 
+
     
