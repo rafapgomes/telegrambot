@@ -14,8 +14,3 @@ def envia_info_jogo(rodada,info_time):
     #retorna as informações de um jogo
     return info,transmissao
      
-
-def envia_video_jogo(info):
-    
-
-
