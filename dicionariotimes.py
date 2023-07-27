@@ -41,7 +41,6 @@ siglas = {
           'LON': ('Londrina - PR','b'),
           'PON': ('Ponte Preta - SP','b'),
           'MIR':('Mirassol - SP','b'),
-          'NAU': ('Tombense - MG','b'),
           'NOV': ('Novorizontino - SP','b'),
          
     }
