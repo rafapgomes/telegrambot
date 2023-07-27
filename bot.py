@@ -36,7 +36,7 @@ def time(mensagem):
         if  not booleano:
             raise KeyError("Time não encontrado no dicionário.")
 
-        bot.send_message(mensagem.chat.id,"Buscando informações de jogos do" + dicionariotimes.siglas[time.upper()][0] +", aguarde")
+        bot.send_message(mensagem.chat.id,"Buscando informações de jogos do " + dicionariotimes.siglas[time.upper()][0] +", aguarde")
         info_time = cbf_scraper.get_rodada(time.upper())
         rodada = info_time['rodada']
         rodada = int(rodada)
