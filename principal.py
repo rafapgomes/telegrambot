@@ -1,6 +1,4 @@
 import cbf_scraper
-import ytapi
-
 
 def envia_info_jogo(rodada,info_time):
     #desmembra as informações do time
