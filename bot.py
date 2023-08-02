@@ -4,10 +4,9 @@ import principal
 import dicionariotimes
 import os
 from dotenv import load_dotenv
-
+import requests.exceptions as re
 
 load_dotenv()
-
 chave_api = os.getenv("TOKEN")
 
 bot = telebot.TeleBot(str(chave_api))
@@ -29,7 +28,6 @@ def start(mensagem):
 def time(mensagem):
 
     time = " ".join(mensagem.text.split(" ")[1:])
-  
     try:
         booleano = time.upper() in dicionariotimes.siglas
         print(booleano)
@@ -37,17 +35,29 @@ def time(mensagem):
             raise KeyError("Time não encontrado no dicionário.")
 
         bot.send_message(mensagem.chat.id,"Buscando informações de jogos do " + dicionariotimes.siglas[time.upper()][0] +", aguarde")
-        info_time = cbf_scraper.get_rodada(time.upper())
+        try:
+            info_time = cbf_scraper.get_rodada(time.upper())
+        except re.ConnectTimeout:
+            print('Nao foi possivel acessar o site da cbf')
+            bot.send_message(mensagem.chat.id,"Nao foi possivel acessar o site da cbf, tente novamente")
+            return -1
         rodada = info_time['rodada']
         rodada = int(rodada)
         cont = rodada
         for i in range(cont-1,rodada + 3):
-            info_jogo,transmissao = principal.envia_info_jogo(i,info_time)
+            try:
+                info_jogo,transmissao = principal.envia_info_jogo(i,info_time)
+            except re.ConnectTimeout:
+                print('Nao foi possivel acessar o site da cbf')
+                bot.send_message(mensagem.chat.id,"Nao foi possivel acessar o site da cbf, tente novamente")
+                return -1
             bot.send_message(mensagem.chat.id,'Rodada '+ str(i)  +'\n'+'Data:'+ info_jogo['desc']+'\n'+info_jogo['casa'] + " " + 
-                info_jogo['info_geral'] + " " + info_jogo['fora']+'\n'+'Transmissao: '+transmissao)
+            info_jogo['info_geral'] + " " + info_jogo['fora']+'\n'+'Transmissao: '+transmissao)
     except KeyError as e:
         bot.send_message(mensagem.chat.id, "Erro: Time não encontrado")
         print("Erro:", e)
+
+
 @bot.message_handler(func=lambda m: True)
 def default(mensagem):
         bot.send_message(mensagem.chat.id,'Comando não reconhecido')
