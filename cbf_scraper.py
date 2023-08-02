@@ -1,13 +1,16 @@
 from bs4 import BeautifulSoup as bs
 import getpage
 import dicionariotimes
-headers = { 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:88.0) Gecko/20100101 Firefox/88.0'}
+import requests.exceptions as re
+
+headers = {'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'}
+
 cookies = {'cookie': 'cookie'}
 
 #verifica em qual rodada o time está     
 def get_rodada(user):
     divisao = dicionariotimes.siglas[user][1]
-    page = getpage.request('https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-'+divisao,headers,cookies)
+    page = getpage.request('https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-'+divisao,headers,cookies,5)
     soup = bs(page,'html.parser')
     soup.find('tbody')
     for i in soup.find_all('tr',class_='expand-trigger'):
@@ -21,11 +24,14 @@ def get_rodada(user):
 #Retorna o jogo do time na rodada solicitada
 def get_jogo(rodada,time,divisao):
     rodada = int(rodada)
-    page =  page = getpage.request('https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-'+divisao,headers,cookies)
+    #faz a requisicao da pagina da cbf onde estao os dados
+    page =  page = getpage.request('https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-'+divisao,headers,cookies,5)
+    #pega o conteudo da pagina com o bs4
     soup = bs(page,'html.parser')
     vetor = soup.find_all(class_='swiper-slide')
     if rodada >=38:
         return
+    #pega o jogo em questao da lista da cbf, buscando atraves do nome do time
     for i in vetor[rodada].find_all('li'):
         sigla = i.find_all('img')
         for k in sigla:
@@ -57,7 +63,7 @@ def get_info_jogo(jogo):
     return {'desc':desc,'casa':time_casa,'fora':time_fora,'info_geral':info_geral,'link':link_jogo}
 #Retorna informações de transmissao
 def get_info_partida(link):
-    page = getpage.request(link,headers,cookies)
+    page = getpage.request(link,headers,cookies,5)
     soup = bs(page,'html.parser')
     tag =  soup.find(class_='col-sm-4 text-right')
     childTag = tag.find(class_="text-2 p-r-20")
