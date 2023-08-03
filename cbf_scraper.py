@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup as bs
 import getpage
 import dicionariotimes
-import requests.exceptions as re
 
 headers = {'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'}
 
@@ -15,7 +14,7 @@ def get_rodada(user):
     soup.find('tbody')
     for i in soup.find_all('tr',class_='expand-trigger'):
             time = i.find(class_='hidden-xs').contents[0]
-            
+
             if  time == dicionariotimes.siglas[user][0]:
                     return {'rodada': i.find_all('td')[1].contents[0],'time':user,'div':divisao}
                
