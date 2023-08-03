@@ -41,6 +41,11 @@ def time(mensagem):
             print('Nao foi possivel acessar o site da cbf')
             bot.send_message(mensagem.chat.id,"Nao foi possivel acessar o site da cbf, tente novamente")
             return -1
+        except re.ReadTimeout:
+             print('Nao foi possivel acessar os dados,tente novamente')
+             bot.send_message(mensagem.chat.id,"Nao foi possivel acessar o site da cbf, tente novamente")
+             return -1
+
         rodada = info_time['rodada']
         rodada = int(rodada)
         cont = rodada
@@ -51,6 +56,10 @@ def time(mensagem):
                 print('Nao foi possivel acessar o site da cbf')
                 bot.send_message(mensagem.chat.id,"Nao foi possivel acessar o site da cbf, tente novamente")
                 return -1
+            except re.ReadTimeout:
+             print('Nao foi possivel acessar os dados,tente novamente')
+             bot.send_message(mensagem.chat.id,"Nao foi possivel acessar o site da cbf, tente novamente")
+             return -1
             bot.send_message(mensagem.chat.id,'Rodada '+ str(i)  +'\n'+'Data:'+ info_jogo['desc']+'\n'+info_jogo['casa'] + " " + 
             info_jogo['info_geral'] + " " + info_jogo['fora']+'\n'+'Transmissao: '+transmissao)
     except KeyError as e:
