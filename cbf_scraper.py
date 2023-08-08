@@ -60,6 +60,7 @@ def get_info_jogo(jogo):
     else:
         info_geral= 'x'
     return {'desc':desc,'casa':time_casa,'fora':time_fora,'info_geral':info_geral,'link':link_jogo}
+
 #Retorna informações de transmissao
 def get_info_partida(link):
     page = getpage.request(link,headers,cookies,5)
@@ -71,4 +72,15 @@ def get_info_partida(link):
     else:
         transmissao = 'Nao disponivel'
     return transmissao
+
+def get_tabela(divisao):
+    page =  page = getpage.request('https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-'
+                                   +divisao,headers,cookies,5)
+    soup = bs(page,'html.parser')
+    tabela = soup.find(class_ = "table m-b-20 tabela-expandir")
+    nos = tabela.find_all("tr",class_ = "expand-trigger")
+    for no in nos:
+         print(no.prettify())
+
+
     
