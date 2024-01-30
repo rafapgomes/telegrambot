@@ -1,7 +1,7 @@
 import cbf_scraper
 import requests.exceptions as re
 
-def envia_info_jogo(rodada,info_time):
+def get_info_jogo(rodada,info_time):
     #desmembra as informações do time
     time = info_time['time']
     divisao = info_time['div']
@@ -9,7 +9,11 @@ def envia_info_jogo(rodada,info_time):
     try:
         jogo = cbf_scraper.get_jogo(rodada,time,divisao)
     except re.ConnectTimeout:
-        print("Erro")
+        return -1
+    except re.ReadTimeout:
+        return -1
+    if("rodada38" == jogo):
+        return "rodada38","rodada38"
     info = cbf_scraper.get_info_jogo(jogo)
     
     link = info['link']

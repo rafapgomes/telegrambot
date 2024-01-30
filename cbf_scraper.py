@@ -25,11 +25,12 @@ def get_jogo(rodada,time,divisao):
     rodada = int(rodada)
     #faz a requisicao da pagina da cbf onde estao os dados
     page =  page = getpage.request('https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-'+divisao,headers,cookies,5)
+    
     #pega o conteudo da pagina com o bs4
     soup = bs(page,'html.parser')
     vetor = soup.find_all(class_='swiper-slide')
-    if rodada >=38:
-        return
+    if rodada >37:
+        return "rodada38"
     #pega o jogo em questao da lista da cbf, buscando atraves do nome do time
     for i in vetor[rodada].find_all('li'):
         sigla = i.find_all('img')
@@ -76,11 +77,19 @@ def get_info_partida(link):
 def get_tabela(divisao):
     page =  page = getpage.request('https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-'
                                    +divisao,headers,cookies,5)
+    
     soup = bs(page,'html.parser')
     tabela = soup.find(class_ = "table m-b-20 tabela-expandir")
-    nos = tabela.find_all("tr",class_ = "expand-trigger")
-    for no in nos:
-         print(no.prettify())
-
+    no = tabela.find("tr",class_ = "expand-trigger")
+    no = no.findChildren()
+    vet = []
+    for i in no:
+        print(i)
+        print("-------------")
+        for a in i:
+            vet.append(a)
+           
+            
+#get_tabela("a")
 
     
