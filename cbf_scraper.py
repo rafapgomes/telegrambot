@@ -74,22 +74,8 @@ def get_info_partida(link):
         transmissao = 'Nao disponivel'
     return transmissao
 
-def get_tabela(divisao):
-    page =  page = getpage.request('https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-'
-                                   +divisao,headers,cookies,5)
-    
-    soup = bs(page,'html.parser')
-    tabela = soup.find(class_ = "table m-b-20 tabela-expandir")
-    no = tabela.find("tr",class_ = "expand-trigger")
-    no = no.findChildren()
-    vet = []
-    for i in no:
-        print(i)
-        print("-------------")
-        for a in i:
-            vet.append(a)
+
            
             
-#get_tabela("a")
 
     
