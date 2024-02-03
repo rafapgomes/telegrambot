@@ -9,7 +9,7 @@ cookies = {'cookie': 'cookie'}
 #verifica em qual rodada o time está     
 def get_rodada(user):
     divisao = dicionariotimes.siglas[user][1]
-    page = getpage.request('https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-'+divisao,headers,cookies,5)
+    page = getpage.request('https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-'+divisao,headers,cookies,0.05)
     soup = bs(page,'html.parser')
     soup.find('tbody')
     for i in soup.find_all('tr',class_='expand-trigger'):
@@ -18,8 +18,6 @@ def get_rodada(user):
             if  time == dicionariotimes.siglas[user][0]:
                     return {'rodada': i.find_all('td')[1].contents[0],'time':user,'div':divisao}
                
-
-
 #Retorna o jogo do time na rodada solicitada
 def get_jogo(rodada,time,divisao):
     rodada = int(rodada)
@@ -29,7 +27,7 @@ def get_jogo(rodada,time,divisao):
     #pega o conteudo da pagina com o bs4
     soup = bs(page,'html.parser')
     vetor = soup.find_all(class_='swiper-slide')
-    if rodada >37:
+    if rodada > 37:
         return "rodada38"
     #pega o jogo em questao da lista da cbf, buscando atraves do nome do time
     for i in vetor[rodada].find_all('li'):
